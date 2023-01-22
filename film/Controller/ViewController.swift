@@ -9,19 +9,15 @@ import UIKit
 import Alamofire
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
+    
+    @IBOutlet weak var dataTableView: UITableView!
     
     var movie = [MovieModel]()
     var filteredMovie = [MovieModel]()
     let apiRequest = ApiRequest(s: "", i: "", t: "")
     
     let searchController = UISearchController(searchResultsController: nil)
-//    var isSearchBarEmpty: Bool {
-//        return searchController.searchBar.text?.isEmpty ?? true
-//    }
-//    
-    
-    @IBOutlet weak var dataTableView: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +43,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         // Register data tableview cell
         dataTableView.register(DataTableViewCell.self, forCellReuseIdentifier: "dataCell")
         
-        
+        // apply delegate method
         dataTableView.dataSource = self
         dataTableView.delegate = self
 
@@ -78,13 +74,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         var cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! DataTableViewCell
         
+        cell.accessoryType = .disclosureIndicator
+        
         if movie.isEmpty {
             cell = DataTableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "dataCell")
         } else {
             
             cell.movie = movie[indexPath.row]
         }
-        cell.accessoryType = .disclosureIndicator
         
         return cell
     }
